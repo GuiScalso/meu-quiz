@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Fundo escuro padrão */
+body {
+  background-color: #000;
+  color: #fff;
+  height: 100vh;
+}
+
+/* Remove margens automáticas */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Centralização do conteúdo */
+main {
+  max-width: 450px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* Fonte igual ao modelo */
+html, body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+/* Centralização vertical da tela */
+.full-center {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
