@@ -9,7 +9,10 @@ type Question = {
 }
 
 const QUESTIONS: Question[] = [
-  // ...mesmo array de perguntas
+  { id: 1, title: 'Quanto tempo você costuma passar sentado por dia?', options: ['Menos de 4 horas', 'Entre 4 e 8 horas', 'Mais de 8 horas por dia'] },
+  { id: 2, title: 'Você costuma se alongar ou fazer qualquer tipo de mobilidade durante a semana?', options: ['Sim, com frequência', 'Às vezes', 'Não faço alongamento'] },
+  { id: 3, title: 'Você sente que tem ou já teve postura curvada?', options: ['Não, minha postura é excelente', 'Às vezes percebo', 'Sim, e me incomoda'] },
+  { id: 4, title: 'Você consegue encostar as mãos nos pés sem dobrar os joelhos?', options: ['Sim, tranquilamente', 'Chego perto', 'Não chego nem perto'] },
 ]
 
 export default function Page() {
@@ -18,7 +21,6 @@ export default function Page() {
   const [answers, setAnswers] = useState<(string | null)[]>(Array(QUESTIONS.length).fill(null))
   const [heightCm, setHeightCm] = useState<string>('')
   const [age, setAge] = useState<string>('')
-  const [name, setName] = useState<string>('')
 
   function selectOption(option: string) {
     const copy = [...answers]
@@ -36,7 +38,8 @@ export default function Page() {
   }
 
   function computeResult() {
-    // ...mesma lógica de cálculo
+    // Exemplo simples de resultado
+    return `Você pode crescer aproximadamente ${Math.floor(Math.random() * 8) + 1} cm nos próximos 30 dias!`
   }
 
   function handleCalculate() {
@@ -95,53 +98,46 @@ export default function Page() {
               <div className="text-sm text-red-500">Pergunta {step + 1} de {QUESTIONS.length}</div>
             </div>
 
-            <div>
-              <h4 className="text-xl font-bold mb-4 text-white">{QUESTIONS[step].title}</h4>
+            <h4 className="text-xl font-bold mb-4 text-white">{QUESTIONS[step].title}</h4>
 
-              <div className="space-y-3">
-                {QUESTIONS[step].options.map((opt) => {
-                  const selected = answers[step] === opt
-                  return (
-                    <button
-                      key={opt}
-                      onClick={() => selectOption(opt)}
-                      className={
-                        'w-full text-left px-4 py-3 rounded-lg border transition ' +
-                        (selected
-                          ? 'bg-red-600 text-white border-transparent'
-                          : 'bg-zinc-800 border-zinc-700 hover:bg-zinc-700')
-                      }
-                    >
-                      {opt}
-                    </button>
-                  )
-                })}
-              </div>
-
-              <div className="flex items-center justify-between mt-6">
-                <button
-                  onClick={prevQuestion}
-                  className="px-4 py-2 rounded-lg border border-zinc-700 text-sm text-white"
-                  disabled={step === 0}
-                >
-                  Voltar
-                </button>
-
-                <div className="flex items-center gap-3">
+            <div className="space-y-3">
+              {QUESTIONS[step].options.map((opt) => {
+                const selected = answers[step] === opt
+                return (
                   <button
-                    onClick={() => {
-                      if (!answers[step]) {
-                        alert('Selecione uma opção para continuar.')
-                        return
-                      }
-                      nextQuestion()
-                    }}
-                    className="px-5 py-3 rounded-lg bg-red-600 hover:bg-red-700 text-white font-semibold"
+                    key={opt}
+                    onClick={() => selectOption(opt)}
+                    className={
+                      'w-full text-left px-4 py-3 rounded-lg border transition ' +
+                      (selected
+                        ? 'bg-red-600 text-white border-transparent'
+                        : 'bg-zinc-800 border-zinc-700 hover:bg-zinc-700')
+                    }
                   >
-                    Próxima Pergunta
+                    {opt}
                   </button>
-                </div>
-              </div>
+                )
+              })}
+            </div>
+
+            <div className="flex items-center justify-between mt-6">
+              <button
+                onClick={prevQuestion}
+                className="px-4 py-2 rounded-lg border border-zinc-700 text-sm text-white"
+                disabled={step === 0}
+              >
+                Voltar
+              </button>
+
+              <button
+                onClick={() => {
+                  if (!answers[step]) { alert('Selecione uma opção para continuar.'); return }
+                  nextQuestion()
+                }}
+                className="px-5 py-3 rounded-lg bg-red-600 hover:bg-red-700 text-white font-semibold"
+              >
+                Próxima Pergunta
+              </button>
             </div>
           </div>
         )}
@@ -210,5 +206,43 @@ export default function Page() {
   )
 }
 
-/* ---------- Componentes ResultBlock, PlansBlock, PlanCard, TestimonialCard, StatBox ---------- */
-/* Mesma lógica, mas com cores ajustadas: bg-black/30, text-white e botões bg-red-600 hover:bg-red-700 */
+/* ----------------- Componentes auxiliares ----------------- */
+
+function ResultBlock({ computeResult, onStartGrowth }: { computeResult: string; onStartGrowth: () => void }) {
+  return (
+    <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-xl text-center">
+      <h3 className="text-2xl font-bold text-white mb-4">Resultado do seu potencial OG</h3>
+      <p className="text-white mb-6">{computeResult}</p>
+      <button
+        onClick={onStartGrowth}
+        className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg"
+      >
+        Ver Planos
+      </button>
+    </div>
+  )
+}
+
+function PlansBlock() {
+  return (
+    <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-xl text-center space-y-4">
+      <h3 className="text-2xl font-bold text-white mb-4">Escolha seu plano OG</h3>
+      <PlanCard title="Plano Básico" price="R$99" features={['Acesso ao método', 'Suporte via email']} />
+      <PlanCard title="Plano Premium" price="R$149" features={['Acesso ao método', 'Suporte via WhatsApp', 'Material extra']} />
+    </div>
+  )
+}
+
+function PlanCard({ title, price, features }: { title: string; price: string; features: string[] }) {
+  return (
+    <div className="bg-zinc-800 border border-zinc-700 rounded-xl p-4 shadow-md">
+      <h4 className="text-xl font-bold text-white mb-2">{title}</h4>
+      <p className="text-red-500 font-semibold mb-2">{price}</p>
+      <ul className="text-white list-disc list-inside space-y-1">
+        {features.map((f) => (
+          <li key={f}>{f}</li>
+        ))}
+      </ul>
+    </div>
+  )
+}
