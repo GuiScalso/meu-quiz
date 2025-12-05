@@ -246,3 +246,29 @@ function PlanCard({ title, price, features }: { title: string; price: string; fe
     </div>
   )
 }
+function ResultBlock({ computeResult, onStartGrowth }: { computeResult: any; onStartGrowth: () => void }) {
+  return (
+    <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-xl">
+      <h2 className="text-2xl font-bold text-white mb-4">Resultado</h2>
+      <p className="text-white mb-4">{computeResult}</p>
+      <button
+        onClick={onStartGrowth}
+        className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold"
+      >
+        Continuar
+      </button>
+    </div>
+  )
+}
+
+function PlansBlock() {
+  return (
+    <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-xl">
+      <h2 className="text-2xl font-bold text-white mb-4">Planos</h2>
+      <p className="text-white mb-4">Escolha seu plano e desbloqueie sua altura.</p>
+      <button className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold">
+        Assinar Agora
+      </button>
+    </div>
+  )
+}
